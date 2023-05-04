@@ -4,9 +4,10 @@ import {styles} from './TodoList.styles';
 import {TodoItem} from '../../components/TodoItem/TodoItem';
 import {selectTodos} from '../../store/selectors';
 import {useDispatch, useSelector} from 'react-redux';
-import {getTodos} from '../../store/actions';
+import {completedTodo, getTodos} from '../../store/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {FETCH_STATUSES} from '../../utils/constans';
+import {ITodo} from './TodoList.types';
 
 const TodoList = () => {
   // const todos = useSelector(selectTodos);
@@ -15,13 +16,19 @@ const TodoList = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(getTodos());
   }, []);
 
+  const handlePressTodo = (id: number) => {
+    const changedTodo = {...todos[id], completed: !todos[id].completed};
+    dispatch(completedTodo(changedTodo));
+  };
+
   return (
     <ScrollView style={styles.todoListContainer}>
-      {todos.map((todo, i) => (
-        <TodoItem key={i} ind={i} todo={todo} />
+      {Object.values(todos).map((todo, i) => (
+        <TodoItem key={i} ind={i} todo={todo} onCompleted={handlePressTodo} />
       ))}
     </ScrollView>
   );
