@@ -26,9 +26,14 @@ export type ICompletedTodoAction = {
   type: string;
   payload: ITodo;
 };
+export type IDeleteTodoAction = {
+  type: string;
+  payload: number;
+};
 
 export type IAction =
   | IGetTodosRequestAction
   | IGetTodosSuccessAction
   | IGetTodosErrorAction
-  | ICompletedTodoAction;
+  | ICompletedTodoAction
+  | IDeleteTodoAction;

@@ -7,6 +7,7 @@ export const GET_TODOS_REQUEST = 'GET_TODOS_REQUEST';
 export const GET_TODOS_SUCCESS = 'GET_TODOS_SUCCESS';
 export const GET_TODOS_ERROR = 'GET_TODOS_ERROR';
 export const COMPLETED_TODO = 'COMPLETED_TODO';
+export const DELETED_TODO = 'DELETED_TODO';
 
 export const getTodosRequest = () => ({
   type: GET_TODOS_REQUEST,
@@ -23,6 +24,10 @@ export const getTodosError = (err: any) => ({
 export const completedTodo = (newTodo: ITodo) => ({
   type: COMPLETED_TODO,
   payload: newTodo,
+});
+export const deletedTodo = (id: number) => ({
+  type: DELETED_TODO,
+  payload: id,
 });
 
 export const getTodos = () => (dispatch: Dispatch) => {

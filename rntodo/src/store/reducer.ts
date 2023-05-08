@@ -5,6 +5,7 @@ import {
   GET_TODOS_REQUEST,
   GET_TODOS_SUCCESS,
   COMPLETED_TODO,
+  DELETED_TODO,
 } from './actions';
 import {ITodo} from '../screens/TodoList/TodoList.types';
 import {
@@ -12,6 +13,7 @@ import {
   IGetTodosSuccessAction,
   ITodosState,
   ICompletedTodoAction,
+  IDeleteTodoAction,
 } from './types';
 
 const initialState: ITodosState = {
@@ -48,6 +50,16 @@ const todosReducer = (state = initialState, action: IAction) => {
           ...state.todos,
           [typedAction.payload.id]: typedAction.payload,
         },
+      };
+    }
+    case DELETED_TODO: {
+      const typedAction = action as IDeleteTodoAction;
+      const todos = {...state.todos};
+      delete todos[typedAction.payload];
+
+      return {
+        ...state,
+        todos,
       };
     }
     default:
