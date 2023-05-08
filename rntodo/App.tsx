@@ -31,8 +31,6 @@ function App(): JSX.Element {
           backgroundColor={backgroundStyle.backgroundColor}
         />
         <Navigation />
-        {/* <TodoList /> */}
-        {/* </SafeAreaView> */}
       </PersistGate>
     </Provider>
   );

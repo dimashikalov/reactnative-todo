@@ -9,8 +9,8 @@ const RootStack = createNativeStackNavigator<IRootStackParams>();
 export const Navigation = () => {
   return (
     <NavigationContainer>
-      <RootStack.Navigator initialRouteName="TodoListList">
-        <RootStack.Screen name="TodoListList" component={TodoList} />
+      <RootStack.Navigator initialRouteName="TodoList">
+        <RootStack.Screen name="TodoList" component={TodoList} />
       </RootStack.Navigator>
     </NavigationContainer>
   );

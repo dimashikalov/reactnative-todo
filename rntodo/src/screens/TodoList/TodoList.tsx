@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, Text} from 'react-native';
 import {styles} from './TodoList.styles';
 import {TodoItem} from '../../components/TodoItem/TodoItem';
 import {selectTodos} from '../../store/selectors';
@@ -8,6 +8,7 @@ import {completedTodo, getTodos} from '../../store/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {FETCH_STATUSES} from '../../utils/constans';
 import {ITodo} from './TodoList.types';
+import TextField from '../../components/TextField/TextField';
 
 const TodoList = () => {
   // const todos = useSelector(selectTodos);
@@ -25,11 +26,25 @@ const TodoList = () => {
     dispatch(completedTodo(changedTodo));
   };
 
+  const handleAddTodo = (text: string) => {
+    const newTodo: ITodo = {
+      id: Date.now(),
+      completed: false,
+      title: text,
+    };
+
+    dispatch(completedTodo(newTodo));
+  };
+
   return (
-    <ScrollView style={styles.todoListContainer}>
+    <ScrollView
+      contentContainerStyle={styles.container}
+      style={styles.todoListContainer}>
+      <TextField onSubmit={handleAddTodo} />
       {Object.values(todos).map((todo, i) => (
         <TodoItem key={i} ind={i} todo={todo} onCompleted={handlePressTodo} />
       ))}
+      {status === 'error' && <Text>Error</Text>}
     </ScrollView>
   );
 };
