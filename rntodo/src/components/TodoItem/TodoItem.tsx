@@ -3,6 +3,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {ITodoItemProps} from './TodoItem.types';
 import {styles} from './TodoItem.styles';
 import Checkbox from '../Checkbox/Checkbox';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const TodoItem: FC<ITodoItemProps> = ({
   ind,
@@ -26,7 +27,7 @@ export const TodoItem: FC<ITodoItemProps> = ({
         </Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleDeletePress}>
-        <Text>Delete</Text>
+        <Icon name="remove" size={30} color={'red'} />
       </TouchableOpacity>
     </View>
   );
