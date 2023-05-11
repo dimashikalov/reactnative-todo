@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     marginVertical: 10,
     width: '70%',
+    paddingLeft: 20,
   },
   todoText: {
     marginLeft: 15,

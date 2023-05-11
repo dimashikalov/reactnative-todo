@@ -21,7 +21,7 @@ export const TodoItem: FC<ITodoItemProps> = ({
   return (
     <View style={styles.todoRow}>
       <TouchableOpacity onPress={handlePress} style={styles.todoContainer}>
-        <Checkbox checked={todo.completed} />
+        <Checkbox checked={todo.completed} onPress={handlePress} />
         <Text style={styles.todoText}>
           {ind + 1}: {todo.title}
         </Text>
