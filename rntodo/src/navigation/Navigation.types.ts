@@ -6,6 +6,10 @@ export type IRootStackParams = {
   TodoDetails: {
     todoId: number;
   };
+  ImgFull: {
+    uri: string;
+    todoId: number;
+  };
 };
 
 export type ITodoListNavigationProp = NativeStackNavigationProp<
@@ -17,4 +21,10 @@ export type ITodoDetailsRouteProp = RouteProp<IRootStackParams, 'TodoDetails'>;
 export type ITodoDetailsNavigationProp = NativeStackNavigationProp<
   IRootStackParams,
   'TodoDetails'
+>;
+
+export type IImgFullRouteProp = RouteProp<IRootStackParams, 'ImgFull'>;
+export type IImgFullNavigationProp = NativeStackNavigationProp<
+  IRootStackParams,
+  'ImgFull'
 >;

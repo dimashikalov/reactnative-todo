@@ -60,11 +60,15 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
     );
   };
 
+  const handleImagePress = (imgUri?: string) => {
+    navigation.navigate('ImgFull', {uri: imgUri || '', todoId: todo.id});
+  };
+
   return (
     <ScrollView>
       <TextField initialValue={todo.title} onChangeText={setEditedTitle} />
       <Text>{todo.title}</Text>
-      <Gallery imgs={todo.imgs} />
+      <Gallery onPress={handleImagePress} imgs={todo.imgs} />
       <Button title="Select Image" onPress={handleSelectImage} />
     </ScrollView>
   );
