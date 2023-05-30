@@ -5,4 +5,5 @@ export interface ITodoItemProps {
   todo: ITodo;
   onCompleted: (id: number) => void;
   onDelete: (id: number) => void;
+  onPress: (id: number) => void;
 }

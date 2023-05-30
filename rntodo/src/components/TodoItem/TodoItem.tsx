@@ -10,8 +10,12 @@ export const TodoItem: FC<ITodoItemProps> = ({
   todo,
   onCompleted,
   onDelete,
+  onPress,
 }) => {
   const handlePress = () => {
+    onPress(todo.id);
+  };
+  const handleCompleted = () => {
     onCompleted(todo.id);
   };
 
@@ -21,7 +25,7 @@ export const TodoItem: FC<ITodoItemProps> = ({
   return (
     <View style={styles.todoRow}>
       <TouchableOpacity onPress={handlePress} style={styles.todoContainer}>
-        <Checkbox checked={todo.completed} onPress={handlePress} />
+        <Checkbox checked={todo.completed} onPress={handleCompleted} />
         <Text style={styles.todoText}>
           {ind + 1}: {todo.title}
         </Text>
