@@ -3,7 +3,7 @@ import React from 'react';
 import {IGallaryProps} from './Gallary.types';
 import {styles} from './Gallare.styles';
 
-const Gallary = ({imgs}: IGallaryProps) => {
+const Gallery = ({imgs}: IGallaryProps) => {
   return (
     <>
       {imgs.map(img => (
@@ -19,4 +19,4 @@ const Gallary = ({imgs}: IGallaryProps) => {
   );
 };
 
-export default Gallary;
+export default Gallery;
