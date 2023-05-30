@@ -1,4 +1,4 @@
-import {View, Text} from 'react-native';
+import {View, Text, ScrollView} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ITodoDetailsProp} from './TodoDetails.types';
 import {useSelector} from 'react-redux';
@@ -9,6 +9,7 @@ import {useAppDispatch} from '../../hooks/hooks';
 import SaveButton from '../../components/SaveButton/SaveButton';
 import {Button} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
+import Gallary from '../../components/Gallary/Gallary';
 
 export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
   const todo = useSelector(selectTodoById(route.params.todoId));
@@ -60,10 +61,11 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
   };
 
   return (
-    <>
+    <ScrollView>
       <TextField initialValue={todo.title} onChangeText={setEditedTitle} />
       <Text>{todo.title}</Text>
+      <Gallary imgs={todo.imgs} />
       <Button title="Select Image" onPress={handleSelectImage} />
-    </>
+    </ScrollView>
   );
 };
