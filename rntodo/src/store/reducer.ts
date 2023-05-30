@@ -4,7 +4,7 @@ import {
   GET_TODOS_ERROR,
   GET_TODOS_REQUEST,
   GET_TODOS_SUCCESS,
-  COMPLETED_TODO,
+  CHANGED_TODO,
   DELETED_TODO,
 } from './actions';
 import {ITodo} from '../screens/TodoList/TodoList.types';
@@ -12,8 +12,8 @@ import {
   IAction,
   IGetTodosSuccessAction,
   ITodosState,
-  ICompletedTodoAction,
   IDeleteTodoAction,
+  IChangedTodoAction,
 } from './types';
 
 const initialState: ITodosState = {
@@ -42,8 +42,8 @@ const todosReducer = (state = initialState, action: IAction) => {
         status: FETCH_STATUSES.error,
       };
     }
-    case COMPLETED_TODO: {
-      const typedAction = action as ICompletedTodoAction;
+    case CHANGED_TODO: {
+      const typedAction = action as IChangedTodoAction;
       return {
         ...state,
         todos: {

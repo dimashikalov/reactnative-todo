@@ -22,7 +22,7 @@ export type IGetTodosErrorAction = {
   payload: any;
 };
 
-export type ICompletedTodoAction = {
+export type IChangedTodoAction = {
   type: string;
   payload: ITodo;
 };
@@ -35,5 +35,5 @@ export type IAction =
   | IGetTodosRequestAction
   | IGetTodosSuccessAction
   | IGetTodosErrorAction
-  | ICompletedTodoAction
-  | IDeleteTodoAction;
+  | IDeleteTodoAction
+  | IChangedTodoAction;

@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {styles} from './TodoList.styles';
 import {TodoItem} from '../../components/TodoItem/TodoItem';
-import {completedTodo, deletedTodo, getTodos} from '../../store/actions';
+import {changedTodo, deletedTodo, getTodos} from '../../store/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {ITodo, ITodoListProps} from './TodoList.types';
 import TextField from '../../components/TextField/TextField';
@@ -26,8 +26,8 @@ const TodoList = ({navigation}: ITodoListProps) => {
   }, []);
 
   const handlePressTodo = (id: number) => {
-    const changedTodo = {...todos[id], completed: !todos[id].completed};
-    dispatch(completedTodo(changedTodo));
+    const changeTodo = {...todos[id], completed: !todos[id].completed};
+    dispatch(changedTodo(changeTodo));
   };
 
   const handleAddTodo = (text: string) => {
@@ -35,9 +35,10 @@ const TodoList = ({navigation}: ITodoListProps) => {
       id: Date.now(),
       completed: false,
       title: text,
+      imgs: [],
     };
 
-    dispatch(completedTodo(newTodo));
+    dispatch(changedTodo(newTodo));
   };
 
   const handleDeleteTodo = (id: number) => {

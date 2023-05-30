@@ -6,7 +6,7 @@ import {ITodosMap} from './types';
 export const GET_TODOS_REQUEST = 'GET_TODOS_REQUEST';
 export const GET_TODOS_SUCCESS = 'GET_TODOS_SUCCESS';
 export const GET_TODOS_ERROR = 'GET_TODOS_ERROR';
-export const COMPLETED_TODO = 'COMPLETED_TODO';
+export const CHANGED_TODO = 'CHANGED_TODO';
 export const DELETED_TODO = 'DELETED_TODO';
 
 export const getTodosRequest = () => ({
@@ -21,8 +21,8 @@ export const getTodosError = (err: any) => ({
   payload: err,
 });
 
-export const completedTodo = (newTodo: ITodo) => ({
-  type: COMPLETED_TODO,
+export const changedTodo = (newTodo: ITodo) => ({
+  type: CHANGED_TODO,
   payload: newTodo,
 });
 export const deletedTodo = (id: number) => ({
@@ -35,7 +35,7 @@ export const getTodos = () => (dispatch: Dispatch) => {
     .then<ITodo[]>(res => res.json())
     .then(data => {
       const todos = data.slice(0, 20).reduce<ITodosMap>((acc, el) => {
-        acc[el.id] = el;
+        acc[el.id] = {...el, imgs: []};
         return acc;
       }, {});
       dispatch(getTodosSuccess(todos));
