@@ -3,21 +3,33 @@ import React, {useState} from 'react';
 import {styles} from './TextField.styles';
 import {ITextFieldProps} from './TextField.types';
 
-const TextField = ({onSubmit}: ITextFieldProps) => {
-  const [value, setValue] = useState('');
+const TextField = ({
+  onSubmit,
+  initialValue = '',
+  onChangeText,
+}: ITextFieldProps) => {
+  const [value, setValue] = useState(initialValue);
 
   const handleSubmit = () => {
     if (value) {
-      onSubmit(value);
-      setValue('');
+      onSubmit && onSubmit(value);
+      if (!initialValue) {
+        setValue('');
+      }
     }
   };
+
+  const handleCheckText = (text: string) => {
+    setValue(text);
+    onChangeText && onChangeText(text);
+  };
+
   return (
     <TextInput
       placeholder="Enter text..."
       style={styles.textField}
       value={value}
-      onChangeText={setValue}
+      onChangeText={handleCheckText}
       onSubmitEditing={handleSubmit}
     />
   );

@@ -1,5 +1,9 @@
-import {ItodoDetailsRouteProp} from '../../navigation/Navigation.types';
+import {
+  ITodoDetailsNavigationProp,
+  ITodoDetailsRouteProp,
+} from '../../navigation/Navigation.types';
 
 export type ITodoDetailsProp = {
-  route: ItodoDetailsRouteProp;
+  route: ITodoDetailsRouteProp;
+  navigation: ITodoDetailsNavigationProp;
 };

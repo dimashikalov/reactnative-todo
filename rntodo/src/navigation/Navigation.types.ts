@@ -13,4 +13,8 @@ export type ITodoListNavigationProp = NativeStackNavigationProp<
   'TodoList'
 >;
 
-export type ItodoDetailsRouteProp = RouteProp<IRootStackParams, 'TodoDetails'>;
+export type ITodoDetailsRouteProp = RouteProp<IRootStackParams, 'TodoDetails'>;
+export type ITodoDetailsNavigationProp = NativeStackNavigationProp<
+  IRootStackParams,
+  'TodoDetails'
+>;
