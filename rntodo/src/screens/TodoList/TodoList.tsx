@@ -1,5 +1,6 @@
 import React, {useEffect, useMemo} from 'react';
 import {
+  Button,
   FlatList,
   ListRenderItem,
   ListRenderItemInfo,
@@ -7,6 +8,12 @@ import {
   SectionList,
   Text,
 } from 'react-native';
+import notifee, {
+  AndroidImportance,
+  EventType,
+  TimestampTrigger,
+  TriggerType,
+} from '@notifee/react-native';
 import {styles} from './TodoList.styles';
 import {TodoItem} from '../../components/TodoItem/TodoItem';
 import {changedTodo, deletedTodo, getTodos} from '../../store/actions';
@@ -77,6 +84,93 @@ const TodoList = ({navigation}: ITodoListProps) => {
     );
   }, [todos]);
 
+  const sendPush = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'dimas',
+      name: 'Default',
+      importance: AndroidImportance.HIGH,
+    });
+
+    //вариант обычного запуска локального уведомления
+    // await notifee.displayNotification({
+    //   title: 'Dimas is Number 1!',
+    //   body: 'Param param param',
+    //   android: {
+    //     channelId,
+    //     importance: AndroidImportance.HIGH,
+    //   },
+    // });
+
+    //вариант отложенного вызова уведомления
+    const trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: Date.now() + 5000,
+    };
+
+    await notifee.createTriggerNotification(
+      {
+        title: 'Trigger Notification',
+        body: 'Somebody',
+        android: {
+          channelId,
+          importance: AndroidImportance.HIGH,
+          pressAction: {
+            id: 'default',
+          },
+          actions: [
+            {
+              title: 'Action',
+              pressAction: {
+                id: 'action1',
+              },
+            },
+            {
+              title: 'Action2',
+              pressAction: {
+                id: 'action2',
+              },
+            },
+          ],
+        },
+        data: {
+          id: '1',
+        },
+      },
+      trigger,
+    );
+  };
+
+  const isAppOpenedByNotif = async () => {
+    const initNotif = await notifee.getInitialNotification();
+    if (initNotif) {
+      const id = initNotif.notification.data?.id;
+      navigation.navigate('TodoDetails', {
+        todoId: +(id as string),
+      });
+    }
+
+    console.log('initNotif ', initNotif);
+  };
+
+  useEffect(() => {
+    isAppOpenedByNotif();
+  }, []);
+
+  useEffect(() => {
+    return notifee.onForegroundEvent(({type, detail}) => {
+      switch (type) {
+        case EventType.DISMISSED:
+          console.log('User dismissed notification', detail.notification);
+          break;
+        case EventType.PRESS:
+          console.log('User pressed notification', detail.notification);
+          break;
+        case EventType.ACTION_PRESS:
+          console.log('detail ', detail.pressAction?.id);
+      }
+    });
+  }, []);
+
   return (
     //виртуализованные списки
     //обычный ScrollView не может отображать большое кол-во эл-ов, т.к рендерит сразу все эл-ты и занимает этим всю память
@@ -104,18 +198,20 @@ const TodoList = ({navigation}: ITodoListProps) => {
     //   data={Object.values(todos)}
     //   renderItem={renderItem}
     // />
-
-    <SectionList
-      contentContainerStyle={styles.container}
-      style={styles.todoListContainer}
-      ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
-      renderItem={renderItem}
-      sections={[
-        {title: 'Completed', data: sections.completed},
-        {title: 'Not Completed', data: sections.notCompleted},
-      ]}
-      renderSectionHeader={({section}) => <Text>{section.title}</Text>}
-    />
+    <>
+      <Button title="Send push" onPress={sendPush} />
+      <SectionList
+        contentContainerStyle={styles.container}
+        style={styles.todoListContainer}
+        ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
+        renderItem={renderItem}
+        sections={[
+          {title: 'Completed', data: sections.completed},
+          {title: 'Not Completed', data: sections.notCompleted},
+        ]}
+        renderSectionHeader={({section}) => <Text>{section.title}</Text>}
+      />
+    </>
   );
 };
 
