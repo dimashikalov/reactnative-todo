@@ -6,6 +6,7 @@ export interface ITodo {
   id: number;
   title: string;
   imgs: Asset[];
+  notificationIsOn: boolean;
 }
 
 export type ITodoListProps = {

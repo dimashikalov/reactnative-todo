@@ -43,6 +43,7 @@ const TodoList = ({navigation}: ITodoListProps) => {
       completed: false,
       title: text,
       imgs: [],
+      notificationIsOn: false,
     };
 
     dispatch(changedTodo(newTodo));

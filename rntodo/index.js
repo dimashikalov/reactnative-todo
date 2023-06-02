@@ -19,9 +19,7 @@ notifee.onBackgroundEvent(async ({type, detail}) => {
 notifee.registerForegroundService(async notification => {
   console.log('service: ', notification);
   return new Promise(resolve => {
-    setTimeout(() => {
-      resolve();
-    }, 10000);
+    console.log('res ', resolve);
   });
 });
 

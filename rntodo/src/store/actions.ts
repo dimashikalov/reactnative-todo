@@ -35,7 +35,7 @@ export const getTodos = () => (dispatch: Dispatch) => {
     .then<ITodo[]>(res => res.json())
     .then(data => {
       const todos = data.slice(0, 20).reduce<ITodosMap>((acc, el) => {
-        acc[el.id] = {...el, imgs: []};
+        acc[el.id] = {...el, imgs: [], notificationIsOn: false};
         return acc;
       }, {});
       dispatch(getTodosSuccess(todos));

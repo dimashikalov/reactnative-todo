@@ -1,4 +1,4 @@
-import {View, Text, ScrollView} from 'react-native';
+import {View, Text, ScrollView, Switch} from 'react-native';
 import React, {useEffect, useState} from 'react';
 import {ITodoDetailsProp} from './TodoDetails.types';
 import {useSelector} from 'react-redux';
@@ -12,7 +12,7 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import Gallery from '../../components/Gallary/Gallary';
 import notifee, {
   AndroidImportance,
-  EventType,
+  RepeatFrequency,
   TimestampTrigger,
   TriggerType,
 } from '@notifee/react-native';
@@ -70,27 +70,22 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
     navigation.navigate('ImgFull', {uri: imgUri || '', todoId: todo.id});
   };
 
-  const sendPush = async () => {
+  const handleSetPush = async () => {
     const channelId = await notifee.createChannel({
-      id: 'dimas',
+      id: 'default',
       name: 'Default',
       importance: AndroidImportance.HIGH,
     });
 
-    //вариант обычного запуска локального уведомления
-    // await notifee.displayNotification({
-    //   title: 'Dimas is Number 1!',
-    //   body: 'Param param param',
-    //   android: {
-    //     channelId,
-    //     importance: AndroidImportance.HIGH,
-    //   },
-    // });
+    const date = new Date();
+    date.setHours(12);
+    date.setMinutes(10);
+    date.setSeconds(0);
 
-    //вариант отложенного вызова уведомления
     const trigger: TimestampTrigger = {
       type: TriggerType.TIMESTAMP,
-      timestamp: Date.now() + 5000,
+      timestamp: date.getTime(),
+      repeatFrequency: RepeatFrequency.DAILY,
     };
 
     await notifee.createTriggerNotification(
@@ -103,20 +98,6 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
           pressAction: {
             id: 'default',
           },
-          actions: [
-            {
-              title: 'Action',
-              pressAction: {
-                id: 'action1',
-              },
-            },
-            {
-              title: 'Action2',
-              pressAction: {
-                id: 'action2',
-              },
-            },
-          ],
         },
         data: {
           id: todo.id,
@@ -126,9 +107,26 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
     );
   };
 
+  const handleCancelPush = async () => {
+    await notifee.cancelTriggerNotification(todo.id.toString());
+  };
+
+  const handleSwitch = async () => {
+    if (todo.notificationIsOn) {
+      await handleCancelPush();
+    } else {
+      await handleSetPush();
+    }
+
+    dispatch(changedTodo({...todo, notificationIsOn: !todo.notificationIsOn}));
+  };
+
   return (
     <ScrollView>
-      <Button title="Send push" onPress={sendPush} />
+      <View>
+        <Text>Notification</Text>
+        <Switch value={todo.notificationIsOn} onChange={handleSwitch} />
+      </View>
       <TextField initialValue={todo.title} onChangeText={setEditedTitle} />
       <Text>{todo.title}</Text>
       <Gallery onPress={handleImagePress} imgs={todo.imgs} />
