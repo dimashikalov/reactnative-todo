@@ -10,6 +10,12 @@ import SaveButton from '../../components/SaveButton/SaveButton';
 import {Button} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import Gallery from '../../components/Gallary/Gallary';
+import notifee, {
+  AndroidImportance,
+  EventType,
+  TimestampTrigger,
+  TriggerType,
+} from '@notifee/react-native';
 
 export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
   const todo = useSelector(selectTodoById(route.params.todoId));
@@ -64,8 +70,65 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
     navigation.navigate('ImgFull', {uri: imgUri || '', todoId: todo.id});
   };
 
+  const sendPush = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'dimas',
+      name: 'Default',
+      importance: AndroidImportance.HIGH,
+    });
+
+    //вариант обычного запуска локального уведомления
+    // await notifee.displayNotification({
+    //   title: 'Dimas is Number 1!',
+    //   body: 'Param param param',
+    //   android: {
+    //     channelId,
+    //     importance: AndroidImportance.HIGH,
+    //   },
+    // });
+
+    //вариант отложенного вызова уведомления
+    const trigger: TimestampTrigger = {
+      type: TriggerType.TIMESTAMP,
+      timestamp: Date.now() + 5000,
+    };
+
+    await notifee.createTriggerNotification(
+      {
+        title: 'Trigger Notification',
+        body: `${todo.title}`,
+        android: {
+          channelId,
+          importance: AndroidImportance.HIGH,
+          pressAction: {
+            id: 'default',
+          },
+          actions: [
+            {
+              title: 'Action',
+              pressAction: {
+                id: 'action1',
+              },
+            },
+            {
+              title: 'Action2',
+              pressAction: {
+                id: 'action2',
+              },
+            },
+          ],
+        },
+        data: {
+          id: todo.id,
+        },
+      },
+      trigger,
+    );
+  };
+
   return (
     <ScrollView>
+      <Button title="Send push" onPress={sendPush} />
       <TextField initialValue={todo.title} onChangeText={setEditedTitle} />
       <Text>{todo.title}</Text>
       <Gallery onPress={handleImagePress} imgs={todo.imgs} />

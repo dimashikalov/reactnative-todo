@@ -113,7 +113,9 @@ const TodoList = ({navigation}: ITodoListProps) => {
         body: 'Somebody',
         android: {
           channelId,
+          ongoing: true,
           importance: AndroidImportance.HIGH,
+          asForegroundService: true,
           pressAction: {
             id: 'default',
           },
@@ -171,6 +173,10 @@ const TodoList = ({navigation}: ITodoListProps) => {
     });
   }, []);
 
+  const StopService = () => {
+    notifee.stopForegroundService();
+  };
+
   return (
     //виртуализованные списки
     //обычный ScrollView не может отображать большое кол-во эл-ов, т.к рендерит сразу все эл-ты и занимает этим всю память
@@ -200,6 +206,7 @@ const TodoList = ({navigation}: ITodoListProps) => {
     // />
     <>
       <Button title="Send push" onPress={sendPush} />
+      <Button title="Stop service" onPress={StopService} />
       <SectionList
         contentContainerStyle={styles.container}
         style={styles.todoListContainer}

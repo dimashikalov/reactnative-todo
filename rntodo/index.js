@@ -16,4 +16,13 @@ notifee.onBackgroundEvent(async ({type, detail}) => {
   console.log('Notification background handler', type, 'details', detail);
 });
 
+notifee.registerForegroundService(async notification => {
+  console.log('service: ', notification);
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve();
+    }, 10000);
+  });
+});
+
 AppRegistry.registerComponent(appName, () => App);
