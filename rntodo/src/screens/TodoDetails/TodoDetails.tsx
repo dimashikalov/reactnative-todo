@@ -79,7 +79,7 @@ export const TodoDetails = ({route, navigation}: ITodoDetailsProp) => {
 
     const date = new Date();
     date.setHours(12);
-    date.setMinutes(10);
+    date.setMinutes(30);
     date.setSeconds(0);
 
     const trigger: TimestampTrigger = {
