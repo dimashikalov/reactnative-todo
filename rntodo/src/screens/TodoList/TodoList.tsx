@@ -20,6 +20,7 @@ import {changedTodo, deletedTodo, getTodos} from '../../store/actions';
 import {useAppDispatch, useAppSelector} from '../../hooks/hooks';
 import {ITodo, ITodoListProps} from './TodoList.types';
 import TextField from '../../components/TextField/TextField';
+import Animated from 'react-native-reanimated';
 
 const TodoList = ({navigation}: ITodoListProps) => {
   // const todos = useSelector(selectTodos);
@@ -220,7 +221,7 @@ const TodoList = ({navigation}: ITodoListProps) => {
         renderSectionHeader={({section}) => <Text>{section.title}</Text>}
       /> */}
 
-      <FlatList
+      <Animated.FlatList
         contentContainerStyle={styles.container}
         style={styles.todoListContainer}
         ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
