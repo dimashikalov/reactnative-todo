@@ -14,6 +14,7 @@ import {Provider} from 'react-redux';
 import {persistor, store} from './src/store';
 import {PersistGate} from 'redux-persist/es/integration/react';
 import {Navigation} from './src/navigation/Navigation';
+import {GestureHandlerRootView} from 'react-native-gesture-handler';
 
 function App(): JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,16 +24,19 @@ function App(): JSX.Element {
   };
 
   return (
-    <Provider store={store}>
-      <PersistGate persistor={persistor}>
-        {/* <SafeAreaView style={backgroundStyle}> */}
-        <StatusBar
-          barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-          backgroundColor={backgroundStyle.backgroundColor}
-        />
-        <Navigation />
-      </PersistGate>
-    </Provider>
+    <GestureHandlerRootView style={{flex: 1}}>
+      <Provider store={store}>
+        <PersistGate persistor={persistor}>
+          {/* <SafeAreaView style={backgroundStyle}> */}
+
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <Navigation />
+        </PersistGate>
+      </Provider>
+    </GestureHandlerRootView>
   );
 }
 

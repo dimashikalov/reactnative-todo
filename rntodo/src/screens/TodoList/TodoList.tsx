@@ -208,7 +208,7 @@ const TodoList = ({navigation}: ITodoListProps) => {
     <>
       <Button title="Send push" onPress={sendPush} />
       <Button title="Stop service" onPress={StopService} />
-      <SectionList
+      {/* <SectionList
         contentContainerStyle={styles.container}
         style={styles.todoListContainer}
         ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
@@ -218,6 +218,14 @@ const TodoList = ({navigation}: ITodoListProps) => {
           {title: 'Not Completed', data: sections.notCompleted},
         ]}
         renderSectionHeader={({section}) => <Text>{section.title}</Text>}
+      /> */}
+
+      <FlatList
+        contentContainerStyle={styles.container}
+        style={styles.todoListContainer}
+        ListHeaderComponent={() => <TextField onSubmit={handleAddTodo} />}
+        data={Object.values(todos)}
+        renderItem={renderItem}
       />
     </>
   );
